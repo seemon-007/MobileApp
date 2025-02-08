@@ -4,3 +4,4 @@
 4. ทำการ Run เซิฟเวอร์โดยใช้ nodemon server
 5. ทำการ Run แอปพลิเคชันใน Android Studio
 ปล. กรุณาใช้โทรศัพท์จริงในการแสดงผลเพื่อป้องกันข้อผิดพลาด
+ปล.2 มีการ Run ในหน้า Login_Page.dart , Home.dart , Admin.dart
