@@ -1,0 +1,104 @@
+import 'package:flutter/material.dart';
+
+class ReportDay extends StatelessWidget {
+  final List<Map<String, dynamic>> products = [
+    {'name': 'สินค้า A', 'price': 500, 'quantity': 10, 'revenue': 5000},
+    {'name': 'สินค้า B', 'price': 300, 'quantity': 5, 'revenue': 1500},
+    {'name': 'สินค้า B', 'price': 300, 'quantity': 5, 'revenue': 1500},
+    {'name': 'สินค้า B', 'price': 300, 'quantity': 5, 'revenue': 200},
+    {'name': 'สินค้า B', 'price': 300, 'quantity': 5, 'revenue': 100},
+    {'name': 'สินค้า B', 'price': 300, 'quantity': 5, 'revenue': 500},
+    {'name': 'สินค้า B', 'price': 300, 'quantity': 5, 'revenue': 500},
+    {'name': 'สินค้า B', 'price': 300, 'quantity': 5, 'revenue': 150},
+    {'name': 'สินค้า B', 'price': 300, 'quantity': 5, 'revenue': 150},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('สรุปรายวัน'),
+        backgroundColor: Colors.blue,
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          final product = products[index];
+          return buildReportItem(
+            product['name'],
+            product['price'].toString(),
+            product['quantity'].toString(),
+            product['revenue'].toString(),
+          );
+        },
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: ElevatedButton(
+          onPressed: () {
+            final totalQuantity = products.fold<int>(
+              0,
+                  (sum, item) => item['quantity'] + sum ,
+            );
+
+            final totalRevenue = products.fold<int>(
+              0,
+                  (sum, item) => item['revenue']+ sum ,
+            );
+
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text('สรุปผลรวม'),
+                  content: Text(
+                    'จำนวนสินค้าทั้งหมด: $totalQuantity ชิ้น\n'
+                        'รายได้รวมทั้งหมด: $totalRevenue บาท',
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text('ปิด'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          child: Text('สรุปผลรวม'),
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(double.infinity, 50),
+            backgroundColor: Colors.white24,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildReportItem(String name, String price, String quantity, String revenue) {
+    return Card(
+      elevation: 3,
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: ListTile(
+        leading: Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade300,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(Icons.image, size: 40),
+        ),
+        title: Text('ชื่อสินค้า: $name'),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('ราคาสินค้า: $price บาท'),
+            Text('จำนวนที่ขายได้: $quantity'),
+            Text('รายได้ทั้งหมด: $revenue บาท'),
+          ],
+        ),
+      ),
+    );
+  }
+}
